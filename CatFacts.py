@@ -48,11 +48,15 @@ class CatFacts:
 
 
     def getCatPic(self):
-        catPicLink = self.currentPage.find("a", {"class": "image"}).attrs["href"]
+        # catPicLink = self.currentPage.find("a", {"class": "image"}).attrs["href"]
+        catPicLink = self.currentPage.find("table", {"class":"infobox biota"}) \
+                .find("a", {"class": "image"}).attrs["href"]
         catImageHtml = urlopen("http://en.wikipedia.org" + catPicLink)
+        #print(catPicLink)
         catImageObj = BeautifulSoup(catImageHtml, "html.parser")
 
-        return "https:" + catImageObj.find("a", {"class": "internal"}).attrs["href"]
+        # return "https:" + catImageObj.find("a", {"class": "mw-thumbnail-link"}).attrs["href"]
+        return "https:" + catImageObj.find("div", {"class":"fullImageLink"}).a.img.attrs["src"]
 
     def setRandomCat(self):
         newCat = self.catUrl[random.randint(0, len(self.catUrl) - 1)]
