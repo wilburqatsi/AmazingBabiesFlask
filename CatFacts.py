@@ -42,20 +42,28 @@ class CatFacts:
     def getCatFact(self):
 
         # list of a <p> elements on page
-        catFactList = self.currentPage.find("div", {"class": "mw-parser-output"}).findAll("p", recursive=False)
+        catFactList = self.currentPage.find("div", {"class": "mw-parser-output"})\
+            .findAll("p", recursive=False)
 
-        return re.sub(r'\[.+?\]', '', catFactList[random.randint(0, len(catFactList) - 1)].get_text())
+        catFact = re.sub(r'\[.+?\]', '', catFactList[random.randint(0, len(catFactList) - 1)].get_text())
+
+        # while loop ensures that no empty <p> tag strings are returned
+        while catFact == "":
+            catFact = re.sub(r'\[.+?\]', '', catFactList[random.randint(0, len(catFactList) - 1)].get_text())
+
+        return catFact
+
 
 
     def getCatPic(self):
-        # catPicLink = self.currentPage.find("a", {"class": "image"}).attrs["href"]
+
         catPicLink = self.currentPage.find("table", {"class":"infobox biota"}) \
                 .find("a", {"class": "image"}).attrs["href"]
         catImageHtml = urlopen("http://en.wikipedia.org" + catPicLink)
-        #print(catPicLink)
+
         catImageObj = BeautifulSoup(catImageHtml, "html.parser")
 
-        # return "https:" + catImageObj.find("a", {"class": "mw-thumbnail-link"}).attrs["href"]
+
         return "https:" + catImageObj.find("div", {"class":"fullImageLink"}).a.img.attrs["src"]
 
     def setRandomCat(self):
@@ -66,3 +74,32 @@ class CatFacts:
     def getSpecies(self):
         catSpecies = self.currentPage.find("span", {"class":"binomial"}).get_text()
         return re.sub(r'\[.+?\]', '', catSpecies)
+
+
+
+    # Grabs thumbnails on wiki page
+    def getThumbnails(self):
+
+        catThumbList = []
+        for link in self.currentPage.findAll("img", {"class":"thumbimage"}):
+            catThumbList.append(re.sub(r'[0-9]*px-', '550px-', link.attrs["src"]))
+
+        return catThumbList
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

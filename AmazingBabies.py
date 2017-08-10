@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, json
 import CatFacts
 from flask_bootstrap import Bootstrap
 # from flask_wtf import FlaskForm
@@ -9,19 +9,21 @@ bootstrap = Bootstrap(app)
 
 cat = CatFacts.CatFacts()
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
 
     cat.setRandomCat()
     name = cat.getCatName()
     fact = cat.getCatFact()
-    print(name)
-    pic = cat.getCatPic()
-    #print(pic)
+    picArray = []
+    picArray.append(cat.getCatPic())
+
     species = cat.getSpecies()
+    picArray.extend(cat.getThumbnails())
 
 
-    return render_template("index.html", name = name, fact = fact, pic = pic, species = species)
+    return render_template("index.html", name = name, fact = fact, \
+                           species = species, jsonPicArray = json.dumps(picArray), picNum = len(picArray))
 
 
 

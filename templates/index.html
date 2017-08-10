@@ -13,9 +13,29 @@
 
     {{ super() }}
 
-    <script>
+    <script type="text/javascript">
         function refreshPage(){
             location.reload();}
+
+
+
+        var picArray = {{ jsonPicArray|safe }}
+        document.getElementById("catPic").src = picArray[0];
+
+        var count = 1;
+
+
+        function newPic(){
+            document.getElementById("catPic").src = picArray[count % picArray.length];
+            console.log("array length:" + picArray.length);
+            console.log(count % picArray.length);
+            count++;
+
+        }
+
+
+        document.getElementById("picButton").addEventListener("click", newPic);
+
     </script>
 
 {% endblock %}
@@ -45,18 +65,38 @@
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-4 text-center">
-        <img src="{{ pic }}" alt="{{ name }}" class="img-responsive">
+        <img id="catPic" alt="{{ name }}" class="img-responsive center-block">
+        <br>
+
+        {% if picNum > 1 %}
+            <button id="picButton" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-refresh"></span>
+                Get another {{ name }} pic!
+            </button>
+
+        {% else %}
+            <button id="picButton" type="button" class="btn btn-default disabled">
+                <span class="glyphicon glyphicon-refresh"></span>
+                No other pictures
+            </button>
+
+        {% endif %}
+
     </div>
     <div class="col-md-1"></div>
     <div class="col-md-5 text-center">
         <h3 class="catFact">Did you know that...</h3>
         <p>{{ fact }}</p>
         <br>
-{#        <p class="refresh"><i>Refresh page for another fact!</i></p>#}
+
         <button onclick="refreshPage()" class="btn btn-default">Get Another Fact!</button>
     </div>
     <div class="col-md-1"></div>
 </div>
+
+
+
+
 
 
 {% endblock %}
