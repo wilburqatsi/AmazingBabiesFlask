@@ -23,7 +23,7 @@ def index():
 
 
     return render_template("index.html", name = name, fact = fact, \
-                           species = species, jsonPicArray = json.dumps(picArray), picNum = len(picArray))
+                           species = species, jsonPicArray = json.dumps(picArray), picArray = picArray)
 
 
 
