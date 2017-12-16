@@ -13,8 +13,46 @@
     text-align:center;
 }
 
-.customCarousel img {
-  width: auto;
-  height: 225px;
-  max-height: 225px;
+/*.helper{*/
+    /*display: inline-block;*/
+    /*height: 100%;*/
+    /*vertical-align:middle;*/
+/*}*/
+
+/*.slideshowBox{*/
+     /*height: 50vh;*/
+/*}*/
+
+
+
+/*.carousel-inner{*/
+    /*background-color: slategray;*/
+
+/*}*/
+
+.item{
+    text-align: center;
+}
+
+.carousel-inner > .item img{
+    max-height: 50vh;
+    /*display:inline-block;*/
+    margin: auto;
+
+
+
+}
+
+
+.carousel-control.left, .carousel-control.right {
+    background-image: none
+}
+
+.carousel-indicators li{
+    background-color: transparent;
+    border-color: orangered;
+}
+
+.carousel-indicators .active{
+    background-color: orange;
 }
