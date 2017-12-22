@@ -8,7 +8,7 @@ import re
 
 class CatFacts:
 
-
+    random.seed()
     def __init__(self):
         felidae_html = urlopen("http://en.wikipedia.org/wiki/Felidae")
         felidae_bsObj = BeautifulSoup(felidae_html, "html.parser")
@@ -40,7 +40,7 @@ class CatFacts:
 
 
     def getCatFact(self):
-
+        random.seed()
         # list of a <p> elements on page
         catFactList = self.currentPage.find("div", {"class": "mw-parser-output"})\
             .findAll("p", recursive=False)
@@ -67,6 +67,7 @@ class CatFacts:
         return "https:" + catImageObj.find("div", {"class":"fullImageLink"}).a.img.attrs["src"]
 
     def setRandomCat(self):
+        random.seed()
         newCat = self.catUrl[random.randint(0, len(self.catUrl) - 1)]
         newHTML = urlopen("http://en.wikipedia.org" + newCat)
         self.currentPage = BeautifulSoup(newHTML, "html.parser")
